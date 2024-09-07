@@ -125,7 +125,7 @@ resource "aws_instance" "ec2-public" {
                 #!/bin/bash
                 sudo apt update -y
                 sudo apt install apache2 -y
-                sudo syatemct1 start apache2
+                sudo syatemctl start apache2
                 sudo bash -c 'echo First web server > /var/www/http/index.html'
                 EOF
   
