@@ -1,7 +1,7 @@
 provider "aws" {
   region = "ap-south-1"
-  access_key = "  "
-  secret_key = "  "
+  access_key = " "
+  secret_key = " "
 }
 
 # VPC
@@ -69,8 +69,8 @@ resource "aws_security_group" "SW-vpc" {
 
   ingress {
     description = "http"
-    from_port = 88
-    to_port = 88
+    from_port = 80
+    to_port = 80
     protocol = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
@@ -88,6 +88,12 @@ resource "aws_security_group" "SW-vpc" {
     from_port = 443
     to_port = 443
     protocol = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  egress {
+    from_port = 0
+    to_port = 0
+    protocol = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
@@ -116,17 +122,16 @@ resource "aws_instance" "ec2-public" {
   instance_type = "t2.micro"
   availability_zone = "ap-south-1a"
   subnet_id = aws_subnet.Public.id
-  key_name = "terra"
+  key_name = " "                                          # keypair
   associate_public_ip_address = true
   security_groups = [aws_security_group.SW-vpc.id]
- 
-  # Installing Apache2 server
+
   user_data = <<-EOF
                 #!/bin/bash
                 sudo apt update -y
                 sudo apt install apache2 -y
                 sudo systemctl enable apache2 && sudo systemctl start apache2
-                sudo bash -c 'echo First web server > /var/www/http/index.html'
+                sudo bash -c 'echo First web server > /var/www/html/index.html'
                 EOF
   
   tags = {
