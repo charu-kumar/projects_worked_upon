@@ -100,7 +100,7 @@ resource "aws_instance" "website" {
   instance_type = "t2.micro"
   availability_zone = "ap-south-1a"
   subnet_id = aws_subnet.Public.id
-  key_name = "terra"
+  key_name = " "                            #keypair
   associate_public_ip_address = true
   security_groups = [aws_security_group.SW-vpc.id]
     user_data = <<-EOF
@@ -111,8 +111,8 @@ resource "aws_instance" "website" {
                 echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
                 sudo apt-get update
                 sudo apt-get install docker-ce docker-ce-cli containerd.io -y
-                sudo docker pull evo0/webserver:latest
-                sudo docker run -d -p 300:80 --name webserver evo0/webserver
+                sudo docker pull evo0/webserver:latest                                  #pull image from dockerhhub
+                sudo docker run -d -p 300:80 --name webserver evo0/webserver            #create container from image and map port localhost/ec2 port 
                 EOF
 
     tags = {
